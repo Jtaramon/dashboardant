@@ -1,5 +1,6 @@
+
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
@@ -10,8 +11,8 @@
 </a>
 
 <!-- Nav Item - Dashboard -->
-<li class="nav-item active">
-  <a class="nav-link" href="index.php">
+<li class="nav-item" >
+  <a class="nav-link" href="dashboard.php">
     <i class="fas fa-fw fa-tachometer-alt"></i>
     <span>Dashboard</span></a>
 </li>
@@ -20,25 +21,25 @@
 <hr class="sidebar-divider">
 
 <!-- Nav Item - Charts -->
-<li class="nav-item">
-  <a class="nav-link" href="charts.php">
+<li class="nav-item" >
+  <a class="nav-link" href="charts.php" >
     <i class="fas fa-fw fa-chart-area"></i>
-    <span>Charts</span></a>
+    <span>Graficas</span></a>
 </li>
 <!-- Divider -->
 <hr class="sidebar-divider">
 
 <!-- Nav Item - Tables -->
-<li class="nav-item">
-  <a class="nav-link" href="tables.php">
+<li class="nav-item" >
+  <a class="nav-link" href="tables.php" >
     <i class="fas fa-fw fa-table"></i>
-    <span>Tables</span></a>
+    <span>Tablas</span></a>
 </li>
 <!-- Divider -->
 <hr class="sidebar-divider">
 
-<!-- Nav Item - Tables -->
-<li class="nav-item">
+<!-- Nav Item - Subir Datos -->
+<li class="nav-item" >
   <a class="nav-link" href="ingresodatos.php">
     <i class="fas fa-fw fa-table"></i>
     <span>Subir Datos</span></a>
