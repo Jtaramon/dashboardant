@@ -172,6 +172,17 @@ include 'layouts/header.php'; ?>
                   <div class="chart-pie pt-4">
                     <canvas id="chartHoraPie"></canvas>
                   </div>
+                  <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-warning"></i> V. Liviano
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-primary"></i> V. Mediano
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-success"></i> V. Pesado
+                    </span>
+                  </div>
                   <hr>
                 </div>
               </div>
