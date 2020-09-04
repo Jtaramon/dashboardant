@@ -10,36 +10,36 @@ if ($varsesion == null || $varsesion = '') {
 
 require_once 'conexion.php';
 
-// Filtro fecha - VLiviano
-$fecha = $_POST['fecha'];
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE fecha = '$fecha' AND tipo_vehiculo = 'Vehículo Liviano'";
+// Filtro hora - VLiviano
+$hora = $_POST['hora'];
+$sql = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Liviano'";
 $total = $mysqli->query($sql);
 $vl = mysqli_num_rows($total);
 
-// FIN Filtro fecha
+// FIN Filtro hora
 
 
-// Filtro fecha - VMediano
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE fecha = '$fecha' AND tipo_vehiculo = 'Vehículo Mediano'";
+// Filtro hora - VMediano
+$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Mediano'";
 $total1 = $mysqli->query($sql1);
 $vl1 = mysqli_num_rows($total1);
 
-// FIN Filtro fecha
+// FIN Filtro hora
 
 
-// Filtro fecha - VPesado
-$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE fecha = '$fecha' AND tipo_vehiculo = 'Vehículo Pesado'";
+// Filtro hora - VPesado
+$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Pesado'";
 $total2 = $mysqli->query($sql2);
 $vl2 = mysqli_num_rows($total2);
 
-// FIN Filtro fecha
+// FIN Filtro hora
 include 'layouts/header.php'; ?>
 <!--Fin Header-->
 
 <body id="page-top">
-<div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VLivFecha" > <?php echo $vl; ?> </div> 
-<div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VMedFecha" > <?php echo $vl1; ?> </div> 
-<div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPesFecha" > <?php echo $vl2; ?> </div> 
+<div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VLivhora" > <?php echo $vl; ?> </div> 
+<div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VMedhora" > <?php echo $vl1; ?> </div> 
+<div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPeshora" > <?php echo $vl2; ?> </div> 
 
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -78,7 +78,7 @@ include 'layouts/header.php'; ?>
       <h6 class="collapse-header">Filtros</h6>
       <a class="collapse-item" href="charts.php">Fecha</a>
       <a class="collapse-item" href="chartHora.php">Hora</a>
-      <a class="collapse-item" href="chartVelocidad">Velocidad</a>
+      <a class="collapse-item" href="chartVelocidad.php">Velocidad</a>
     </div>
   </div>
 </li>
@@ -138,12 +138,12 @@ include 'layouts/header.php'; ?>
               <!-- Area Chart -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Ingrese la fecha en el siguiente formato:</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Ingrese la hora en el siguiente formato:</h6>
                   
                     <!--<input class="form-control" type="date" id="filtro" onclick="filtroFecha()" value="2018-07-22" min="2018-01-01" max="2018-12-31">-->
-                  <form name="Filtro" method="post" action="charts.php">
+                  <form name="Filtro" method="post" action="chartHora.php">
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="fecha" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                      <input type="text" class="form-control" placeholder="HH:MM:SS" name="hora" aria-label="Recipient's username" aria-describedby="basic-addon2">
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit">Graficar</button>
                       </div>
@@ -152,7 +152,7 @@ include 'layouts/header.php'; ?>
                 </div>
                 <div class="card-body">
                   <div class="chart-area">
-                    <canvas id="chartFechaArea"></canvas>
+                    <canvas id="chartHoraArea"></canvas>
                   </div>
                   <hr>
                 </div>
@@ -170,7 +170,7 @@ include 'layouts/header.php'; ?>
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="chart-pie pt-4">
-                    <canvas id="chartFechaPie"></canvas>
+                    <canvas id="chartHoraPie"></canvas>
                   </div>
                   <hr>
                 </div>
@@ -184,7 +184,7 @@ include 'layouts/header.php'; ?>
 
 <!--Footer-->
 <?php include 'layouts/footer.php'; ?>
-<script src="js/chart/fecha/filtroFechaArea.js"></script>
-<script src="js/chart/fecha/filtroFechaPie.js"></script>
+<script src="js/chart/hora/filtroHoraArea.js"></script>
+<script src="js/chart/hora/filtroHoraPie.js"></script>
 
 <!--Fin Footer-->

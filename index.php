@@ -55,7 +55,6 @@
                       </div>
                     </div>
                     <input class="btn btn-primary btn-user btn-block" type="submit" value="Ingresar">
-                    <hr>
                   </form>
                   <hr>
                   <div class="text-center">
