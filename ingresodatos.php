@@ -104,8 +104,9 @@ header('Content-Type: text/html; charset=ISO-8859-1');
     <div class="bg-white py-2 collapse-inner rounded">
       <h6 class="collapse-header">Filtros</h6>
       <a class="collapse-item" href="charts.php">Fecha</a>
-      <a class="collapse-item" href="register.html">Hora</a>
-      <a class="collapse-item" href="forgot-password.html">Velocidad</a>
+      <a class="collapse-item" href="chartHora.php">Hora</a>      
+      <a class="collapse-item" href="chartVelocidad.php">Velocidad</a>
+      <a class="collapse-item" href="chartTrafico.php">Trafico</a>
     </div>
   </div>
 </li>
@@ -153,8 +154,7 @@ header('Content-Type: text/html; charset=ISO-8859-1');
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-          <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+          <h1 class="h3 mb-2 text-gray-800">Ingreso de datos:</h1><br>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">

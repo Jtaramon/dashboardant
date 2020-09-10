@@ -77,8 +77,9 @@ $vl3 = mysqli_num_rows($total3);
     <div class="bg-white py-2 collapse-inner rounded">
       <h6 class="collapse-header">Filtros</h6>
       <a class="collapse-item" href="charts.php">Fecha</a>
-      <a class="collapse-item" href="register.html">Hora</a>
-      <a class="collapse-item" href="forgot-password.html">Velocidad</a>
+      <a class="collapse-item" href="chartHora.php">Hora</a>      
+      <a class="collapse-item" href="chartVelocidad.php">Velocidad</a>
+      <a class="collapse-item" href="chartTrafico.php">Trafico</a>
     </div>
   </div>
 </li>

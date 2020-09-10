@@ -77,8 +77,9 @@ include 'layouts/header.php'; ?>
     <div class="bg-white py-2 collapse-inner rounded">
       <h6 class="collapse-header">Filtros</h6>
       <a class="collapse-item" href="charts.php">Fecha</a>
-      <a class="collapse-item" href="chartHora.php">Hora</a>
-      <a class="collapse-item" href="chartVelocidad">Velocidad</a>
+      <a class="collapse-item" href="chartHora.php">Hora</a>      
+      <a class="collapse-item" href="chartVelocidad.php">Velocidad</a>
+      <a class="collapse-item" href="chartFechahora.php">Trafico</a>
     </div>
   </div>
 </li>
@@ -143,12 +144,17 @@ include 'layouts/header.php'; ?>
                     <!--<input class="form-control" type="date" id="filtro" onclick="filtroFecha()" value="2018-07-22" min="2018-01-01" max="2018-12-31">-->
                   <form name="Filtro" method="post" action="charts.php">
                     <div class="input-group mb-3">
-                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="fecha" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                      <input type="text" class="form-control" placeholder="DD/MM/AAAA" name="fecha"
+                       aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
                       <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">Graficar</button>
+                        <button class="btn btn-outline-primary" type="submit">Graficar</button>
+                        <button class="btn btn-primary" type="button" onClick="Ejemplofecha()">Cargar ejemplo</button>
+                  </form>
+                        
+                        
                       </div>
                     </div>
-                  </form>
+                  
                 </div>
                 <div class="card-body">
                   <div class="chart-area">
@@ -197,5 +203,6 @@ include 'layouts/header.php'; ?>
 <?php include 'layouts/footer.php'; ?>
 <script src="js/chart/fecha/filtroFechaArea.js"></script>
 <script src="js/chart/fecha/filtroFechaPie.js"></script>
+<script src="js/cargarEjemplos.js"></script>
 
 <!--Fin Footer-->

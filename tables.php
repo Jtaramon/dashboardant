@@ -50,10 +50,20 @@ require_once 'conexion.php';
 <hr class="sidebar-divider">
 
 <!-- Nav Item - Charts -->
-<li class="nav-item" >
-  <a class="nav-link" href="charts.php" >
-    <i class="fas fa-fw fa-chart-area"></i>
-    <span>Graficas</span></a>
+<li class="nav-item">
+  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+    <i class="fas fa-fw fa-folder"></i>
+    <span>Graficas</span>
+  </a>
+  <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+    <div class="bg-white py-2 collapse-inner rounded">
+      <h6 class="collapse-header">Filtros</h6>
+      <a class="collapse-item" href="charts.php">Fecha</a>
+      <a class="collapse-item" href="chartHora.php">Hora</a>      
+      <a class="collapse-item" href="chartVelocidad.php">Velocidad</a>
+      <a class="collapse-item" href="chartTrafico.php">Trafico</a>
+    </div>
+  </div>
 </li>
 <!-- Divider -->
 <hr class="sidebar-divider">
