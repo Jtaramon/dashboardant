@@ -1,5 +1,6 @@
 <?php
 session_start();
+ini_set('MAX_EXECUTION_TIME', '-1');
 $varsesion = $_SESSION['usuario'];
 if ($varsesion == null || $varsesion = '') {
   echo 'Usted no tiene autorizacion';
@@ -16,10 +17,23 @@ require_once 'conexion.php';
       $archivo = $_FILES["archivo"]["name"];
       $archivo_copiado = $_FILES["archivo"]["tmp_name"];
       $archivo_guardado = "copia_".$archivo;
-  
+      $varoption = $_POST['exampleRadios'];
           //Copia Archivo
       if (copy($archivo_copiado ,$archivo_guardado )) {
           echo "Se copio correctamente";
+          
+          if ($varoption == "option1") {
+            $via = "Cuenca";
+          }elseif ($varoption == "option2"){
+            $via = "Malacatos";
+          }elseif ($varoption == "option3"){
+            $via = "Catamayo";
+          }elseif ($varoption == "option4"){
+            $via = "Zamora";
+          }else{
+            echo "Ocurrio un error, vuelve a intentarlo";
+          }
+          
       }else{
           echo "Hubo un error";
       }
@@ -31,7 +45,7 @@ require_once 'conexion.php';
   
           while ($datos = fgetcsv($fp, 1000, ";")) {
                   //echo $datos[0] ." ".$datos[1] ." ".$datos[2]." ".$datos[3]." ".$datos[4]."</br>";
-              $res = insertar_datos($datos[0],$datos[1],$datos[2],$datos[3],$datos[4]);
+              $res = insertar_datos($datos[0],$datos[1],$datos[2],$datos[3],$datos[4],$via);
               if ($res) {
                   
                   
@@ -54,8 +68,6 @@ require_once 'conexion.php';
 //Fin Tables
     
 ?>
-
-
 <!--Iso Lenguaje-->
 <?php
 header('Content-Type: text/html; charset=ISO-8859-1');
@@ -106,7 +118,8 @@ header('Content-Type: text/html; charset=ISO-8859-1');
       <a class="collapse-item" href="charts.php">Fecha</a>
       <a class="collapse-item" href="chartHora.php">Hora</a>      
       <a class="collapse-item" href="chartVelocidad.php">Velocidad</a>
-      <a class="collapse-item" href="chartTrafico.php">Trafico</a>
+      <a class="collapse-item" href="chartTraficoTV.php">Trafico Tipo de Vehiculo</a>
+      <a class="collapse-item" href="chartTraficoEV.php">Trafico Tipo de Evento</a>
     </div>
   </div>
 </li>
@@ -166,10 +179,33 @@ header('Content-Type: text/html; charset=ISO-8859-1');
                 <div class="card-body formulario">
                     <form action="ingresodatos.php" method="post" class="formulariocompleto" enctype="multipart/form-data">
                         <input type="file" name="archivo" class="form-control-file"/>
-                        <small id="emailHelp" class="form-text text-muted">Seleccionar solo archivos con extension .CSV</small><br>
+                        <small id="emailHelp" class="form-text text-muted">Seleccionar solo archivos con extension .CSV</small>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                          <label class="form-check-label" for="exampleRadios1">
+                            Via Cuenca
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                          <label class="form-check-label" for="exampleRadios2">
+                            Via Malacatos
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+                          <label class="form-check-label" for="exampleRadios3">
+                            Via Catamayo
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option4">
+                          <label class="form-check-label" for="exampleRadios3">
+                            Via Zamora
+                          </label>
+                        </div><br>
                         <input type="submit" value="Subir Archivo" class="form-control btn btn-primary" name="enviar" >
                     </form> 
-                    
                 </div>
               </div>
             </div>

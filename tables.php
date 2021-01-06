@@ -61,7 +61,8 @@ require_once 'conexion.php';
       <a class="collapse-item" href="charts.php">Fecha</a>
       <a class="collapse-item" href="chartHora.php">Hora</a>      
       <a class="collapse-item" href="chartVelocidad.php">Velocidad</a>
-      <a class="collapse-item" href="chartTrafico.php">Trafico</a>
+      <a class="collapse-item" href="chartTraficoTV.php">Trafico Tipo de Vehiculo</a>
+      <a class="collapse-item" href="chartTraficoEV.php">Trafico Tipo de Evento</a>
     </div>
   </div>
 </li>
@@ -127,6 +128,7 @@ require_once 'conexion.php';
                           <th>Velocidad</th>
                           <th>Fecha</th>
                           <th>Hora</th>
+                          <th>Vía</th>
                       </tr>
                   </thead>
                   <tfoot>
@@ -137,6 +139,7 @@ require_once 'conexion.php';
                           <th>Velocidad</th>
                           <th>Fecha</th>
                           <th>Hora</th>
+                          <th>Vía</th>
                       </tr>
                   </tfoot>
                   <tbody>
@@ -149,6 +152,7 @@ require_once 'conexion.php';
                               <td><?php echo $row['velocidad']; ?></td>
                               <td><?php echo $row['fecha']; ?></td>
                               <td><?php echo $row['hora']; ?></td>
+                              <td><?php echo $row['via']; ?></td>
                           </tr>
                       <?php } ?>
                       

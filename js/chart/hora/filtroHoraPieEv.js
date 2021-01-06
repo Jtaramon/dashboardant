@@ -1,21 +1,18 @@
-
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-//SELECT * FROM `vehiculos` WHERE vehiculos.evento = 'Salida'
-var vLiv =  document.getElementById("VLivFecha").innerHTML;
-var vMed =  document.getElementById("VMedFecha").innerHTML;
-var vPes =  document.getElementById("VPesFecha").innerHTML;
+var vLiv =  document.getElementById("VEvIngHora").innerHTML;
+var vMed =  document.getElementById("VEvSalHora").innerHTML;
 
 // Pie Chart Example
-var ctx = document.getElementById("chartFechaPie");
+var ctx = document.getElementById("chartHoraPieEv");
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ["Livianos", "Medianos","Pesados"],
+    labels: ["Ingresan", "Salen"],
     datasets: [{
-      data: [vLiv,vMed,vPes],
+      data: [vLiv,vMed],
       backgroundColor: ['#F6C23E', '#4E73DF', '#1CC88A'],
       hoverBackgroundColor: ['#d8aa34', '#375aba', '#17aa74'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",

@@ -12,7 +12,9 @@ require_once 'conexion.php';
 //--------------------------------------------GRAFICO 1------------------------------------------------------
 // Filtro velocidad - VLiviano
 $velocidad = $_POST['velocidad'];
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Liviano'";
+$via = $_POST['exampleFormControlSelect1'];
+
+$sql = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Liviano' AND via ='$via'";
 $total = $mysqli->query($sql);
 $vl = mysqli_num_rows($total);
 
@@ -20,7 +22,7 @@ $vl = mysqli_num_rows($total);
 
 
 // Filtro velocidad - VMediano
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Mediano'";
+$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Mediano' AND via ='$via'";
 $total1 = $mysqli->query($sql1);
 $vl1 = mysqli_num_rows($total1);
 
@@ -28,9 +30,25 @@ $vl1 = mysqli_num_rows($total1);
 
 
 // Filtro velocidad - VPesado
-$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Pesado'";
+$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Pesado' AND via ='$via'";
 $total2 = $mysqli->query($sql2);
 $vl2 = mysqli_num_rows($total2);
+
+
+//---------------------------------------------------GRAFICA 2-----------------------------------------------------
+
+// Filtro velocidad - VMediano
+$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Mediano' AND via ='$via'";
+$total3 = $mysqli->query($sql3);
+$vl3 = mysqli_num_rows($total3);
+
+// FIN Filtro velocidad
+
+
+// Filtro velocidad - VPesado
+$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Pesado' AND via ='$via'";
+$total4 = $mysqli->query($sql4);
+$vl4 = mysqli_num_rows($total4);
 
 // FIN Filtro velocidad
 include 'layouts/header.php'; ?>
@@ -39,7 +57,11 @@ include 'layouts/header.php'; ?>
 <body id="page-top">
 <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VLivvelocidad" > <?php echo $vl; ?> </div> 
 <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VMedvelocidad" > <?php echo $vl1; ?> </div> 
-<div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPesvelocidad" > <?php echo $vl2; ?> </div> 
+<div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPesvelocidad" > <?php echo $vl2; ?> </div>
+
+<div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPesvelocidadEVin" > <?php echo $vl3; ?> </div> 
+<div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPesvelocidadEVSal" > <?php echo $vl4; ?> </div> 
+
 
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -79,7 +101,8 @@ include 'layouts/header.php'; ?>
       <a class="collapse-item" href="charts.php">Fecha</a>
       <a class="collapse-item" href="chartHora.php">Hora</a>      
       <a class="collapse-item" href="chartVelocidad.php">Velocidad</a>
-      <a class="collapse-item" href="chartTrafico.php">Trafico</a>
+      <a class="collapse-item" href="chartTraficoTV.php">Trafico Tipo de Vehiculo</a>
+      <a class="collapse-item" href="chartTraficoEV.php">Trafico Tipo de Evento</a>
     </div>
   </div>
 </li>
@@ -131,7 +154,7 @@ include 'layouts/header.php'; ?>
           <h1 class="h3 mb-2 text-gray-800">Graficos Estadisticos</h1>
           <p class="mb-4">Controla el nro. de vehiculos</p>
 
-          <!-- Content Row -->
+          <!-- Content Row 1-->
           <div class="row">
 
             <div class="col-xl-8 col-lg-7">
@@ -140,20 +163,26 @@ include 'layouts/header.php'; ?>
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Ingrese la Velocidad</h6>
-                  
-                    <!--<input class="form-control" type="date" id="filtro" onclick="filtroFecha()" value="2018-07-22" min="2018-01-01" max="2018-12-31">-->
-                  <form name="Filtro" method="post" action="chartVelocidad.php">
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control" placeholder="Ingrese la velocidad" name="velocidad" 
-                      aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejVelocidad">
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="submit">Graficar</button>
-                        <button class="btn btn-primary" type="button" onClick="Ejemplovelocidad()">Cargar ejemplo</button>
-                      </div>
-                    </div>
-                  </form>
                 </div>
                 <div class="card-body">
+                  <form name="Filtro" method="post" action="chartVelocidad.php">
+                      <div class="form-group">
+                            <select class="form-control" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
+                              <option>Seleccionar la vía......</option>
+                              <option value="Saraguro">Saraguro</option>
+                              <option value="Malacatos">Malacatos</option>
+                              <option value="Catamayo">Catamayo</option>
+                            </select>
+                      </div>
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Ingrese la velocidad" name="velocidad" 
+                        aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejVelocidad">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-primary" type="submit">Graficar</button>
+                          <button class="btn btn-primary" type="button" onClick="Ejemplovelocidad()">Cargar ejemplo</button>
+                        </div>
+                      </div>
+                  </form>
                   <div class="chart-area">
                     <canvas id="chartvelocidadArea"></canvas>
                   </div>
@@ -191,6 +220,64 @@ include 'layouts/header.php'; ?>
               </div>
             </div>
           </div>
+          <!-- Content Row 2-->
+          <div class="row">
+
+            <div class="col-xl-8 col-lg-7">
+
+              <!-- Area Chart -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Ingrese la Velocidad</h6>
+                </div>
+                <div class="card-body">
+                  <form name="Filtro" method="post" action="chartVelocidad.php">
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Ingrese la velocidad" name="velocidad" 
+                        aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejVelocidad">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-primary" type="submit">Graficar</button>
+                          <button class="btn btn-primary" type="button" onClick="Ejemplovelocidad()">Cargar ejemplo</button>
+                        </div>
+                      </div>
+                  </form>
+                  <div class="chart-area">
+                    <canvas id="chartvelocidadAreaEV"></canvas>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Donut Chart -->
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Grafica Segun Velocidad</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-pie pt-4">
+                    <canvas id="chartvelocidadPieEV"></canvas>
+                  </div>
+                  <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-warning"></i> V. Liviano
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-primary"></i> V. Mediano
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-success"></i> V. Pesado
+                    </span>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- /.container-fluid -->
       </div>
@@ -200,6 +287,10 @@ include 'layouts/header.php'; ?>
 <?php include 'layouts/footer.php'; ?>
 <script src="js/chart/velocidad/filtroVelocidadArea.js"></script>
 <script src="js/chart/velocidad/filtroVelocidadPie.js"></script>
+
+<script src="js/chart/velocidad/filtroVelocidadAreaEV.js"></script>
+<script src="js/chart/velocidad/filtroVelocidadPieEV.js"></script>
+
 <script src="js/cargarEjemplos.js"></script>
 
 <!--Fin Footer-->
