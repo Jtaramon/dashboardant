@@ -1,51 +1,21 @@
 <?php
-//Iniciar Sesion nueva
-session_start();
-$varsesion = $_SESSION['usuario'];
-if ($varsesion == null || $varsesion = '') {
-  echo 'Usted no tiene autorizacion';
-  die();
-}
-require_once 'conexion.php';
-$fecha_actual='';
+  //Iniciar Sesion nueva
+  session_start();
+  $varsesion = $_SESSION['usuario'];
+  if ($varsesion == null || $varsesion = '') {
+    echo 'Usted no tiene autorizacion';
+    die();
+  }
+  require_once 'conexion.php';
 
-//-------------------------------------------------TIPO VEHICULO------------------------------------------
-// total de vehiculos
-$sql = "SELECT id_vehiculo FROM vehiculos";
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE fecha BETWEEN '4/1/2021' AND '6/1/2021' AND via = 'Cuenca'";
-$total = $mysqli->query($sql);
-$vl = mysqli_num_rows($total);
-// FIN total de vehiculos
-
-// Vehiculos Livianos
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE fecha BETWEEN '4/1/2021' AND '6/1/2021' AND via = 'Cuenca' AND tipo_vehiculo = 'Vehículo Liviano'";
-$total1 = $mysqli->query($sql1);
-$vl1 = mysqli_num_rows($total1);
-// FIN vehiculos Ingresan
-
-// Vehiculos Medianos
-$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE fecha BETWEEN '4/1/2021' AND '6/1/2021' AND via = 'Cuenca' AND tipo_vehiculo = 'Vehículo Mediano'";
-$total2 = $mysqli->query($sql2);
-$vl2 = mysqli_num_rows($total2);
-// FIN vehiculos Salida
-
-// Vehiculos Medianos
-$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE fecha BETWEEN '4/1/2021' AND '6/1/2021' AND via = 'Cuenca' AND tipo_vehiculo = 'Vehículo Pesado'";
-$total3 = $mysqli->query($sql3);
-$vl3 = mysqli_num_rows($total3);
-// FIN vehiculos Salida
-//-------------------------------------------------Evento VEHICULO------------------------------------------
-// total de vehiculos INGRESA
-$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE evento = 'Ingreso'";
-$total4 = $mysqli->query($sql4);
-$vl4 = mysqli_num_rows($total4);
-// FIN total de vehiculos
-// total de vehiculos Salen
-$sql5 = "SELECT id_vehiculo FROM vehiculos WHERE evento = 'Salida'";
-$total5 = $mysqli->query($sql5);
-$vl5 = mysqli_num_rows($total5);
-// FIN total de vehiculos
-
+  $fecha_actual = date("d-m-Y");
+  $fecha_antes = date("d-m-Y", strtotime($fecha_actual . "- 7 days"));
+  
+  require_once 'layouts/dashboard/cuenca.php';
+  require_once 'layouts/dashboard/malacatos.php';
+  require_once 'layouts/dashboard/catamayo.php';
+  require_once 'layouts/dashboard/zamora.php';
+  
 ?>
 
 <!--Header-->
@@ -54,8 +24,21 @@ $vl5 = mysqli_num_rows($total5);
 
 <body id="page-top">
   <meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
+
+  <!--Datos que se capturan para la gráfica de Ingreso y Salida-->
+  <!--CUENCA-->
   <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VIngreso"> <?php echo $vl4; ?> </div>
   <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VSalida"> <?php echo $vl5; ?> </div>
+  <!--MALACATOS-->
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VIngresoMA"> <?php echo $vl4MA; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VSalidaMA"> <?php echo $vl5MA; ?> </div>
+  <!--CATAMAYO-->
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VIngresoCA"> <?php echo $vl4CA; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VSalidaCA"> <?php echo $vl5CA; ?> </div>
+  <!--ZAMORA-->
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VIngresoZA"> <?php echo $vl4ZA; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VSalidaZA"> <?php echo $vl5ZA; ?> </div>
+
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -139,23 +122,26 @@ $vl5 = mysqli_num_rows($total5);
         <!-- Topbar -->
         <?php include 'layouts/topbar.php'; ?>
         <!-- End of Topbar -->
+        
+        <!-- **************************************************************************************************************************************************************** -->
 
-        <!-- Begin Page Content -->
+        <!-- Inicio de Reporte - Cuenca -->
         <div class="container-fluid">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Via Cuenca</h1>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="window.print()"><i class="fas fa-download fa-sm text-white-50"></i> Generar Reporte</a>
           </div>
+          <!-- Rango de Fecha-->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h6>
               <?php
-              echo "Fecha: " . $fecha_actual = date("d-m-Y") . " y " . date("d-m-Y", strtotime($fecha_actual . "- 7 days"));
+              echo "Fecha: " . $fecha_actual = date("d-m-Y") . " a " . date("d-m-Y", strtotime($fecha_actual . "- 7 days"));
               ?>
             </h6>
           </div>
-          <!--Inicio Targets-->
-          <!-- Content Row Tarjets -->
+          <!-- Fin Rango de Fecha-->
+          <!-- Content Row Tarjets Via Cuenca -->
           <div class="row">
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
@@ -225,147 +211,413 @@ $vl5 = mysqli_num_rows($total5);
               </div>
             </div>
           </div>
-          <!--Finish Targets-->
-          <!-- Content Row graficas 1-->
+          <!--Finish Content Row Tarjets Via Cuenca-->
+
+          <!-- Content Row graficas Via Cuenca-->
           <div class="row">
             <!-- Area Chart -->
-            <div class="col-xl-7 col-lg-6">
+            <div class="col-xl-6 col-lg-5">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary text-uppercase"> Filtro Por Tipo de Vehiculo</h6>
-                  <div class="dropdown no-arrow">
-                  </div>
+                  <h6 class="m-0 font-weight-bold text-primary text-uppercase"> Tráfico según tipo de vehículo</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
+                  <div class="chart-area ">
+                    <canvas id="chart-Tipo-CU"></canvas>
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- Pie Chart -->
-            <div class="col-xl-4 col-lg-5">
+            <!-- Area Chart 2 -->
+            <div class="col-xl-6 col-lg-5">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Vehículos</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
+                  <h6 class="m-0 font-weight-bold text-primary text-uppercase"> Tráfico según evento de Ingreso o Salida</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                  </div>
-                  <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-warning"></i> V. Liviano
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> V. Mediano
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> V. Pesado
-                    </span>
+                  <div class="chart-area">
+                    <canvas id="chart-Even-CU"></canvas>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <!-- Content Row graficas 2-->
-          <div class="row">
-
-            <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary text-uppercase"> Filtro por Evento</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="myAreaChartE"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pie Chart -->
-            <div class="col-xl-4 col-lg-5">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Vehículos</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChartE"></canvas>
-                  </div>
-                  <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-warning"></i> V. Ingresan
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> V. Salen
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Content Row -->
-
-
+          <!-- Finish Content Row graficas Via Cuenca-->
         </div>
-        <!-- /.container-fluid -->
+        <!-- Fin de Reporte - Cuenca -->
+
+        <!-- **************************************************************************************************************************************************************** -->
+        
+        <!-- Inicio de Reporte - Malacatos -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Via Malacatos</h1>
+          </div>
+          <!-- Content Row Tarjets Via Malacatos -->
+          <div class="row">
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de vehículos-->
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total de Vehículos</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> <?php echo $vlMA; ?> </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-car fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de Livianos-->
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Livianos</div>
+                      <div id="vLivianoMA" class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $vl1MA; ?> </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-car-side fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de Medianos-->
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Medianos</div>
+                      <div id="vMedianoMA" class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $vl2MA; ?> </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-truck-pickup fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de Pesados-->
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Pesados</div>
+                      <div id="vPesadoMA" class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $vl3MA; ?></div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-truck-moving fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Finish Content Row Tarjets Via Malacatos-->
+
+          <!-- Content Row graficas Via Malacatos-->
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-6 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary text-uppercase"> Tráfico según tipo de vehículo</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="chart-Tipo-MA"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Area Chart 2 -->
+            <div class="col-xl-6 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary text-uppercase"> Tráfico según evento de Ingreso o Salida</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="chart-Even-MA"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Finish Content Row graficas Via Malacatos-->
+        </div>
+        <!-- Fin de Reporte - Malacatos -->
+
+        <!-- **************************************************************************************************************************************************************** -->
+        
+        <!-- Inicio de Reporte - Catamayo -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Via Catamayo</h1>
+          </div>
+          <!-- Content Row Tarjets Via Catamayo -->
+          <div class="row">
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de vehículos-->
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total de Vehículos</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> <?php echo $vlCA; ?> </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-car fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de Livianos-->
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Livianos</div>
+                      <div id="vLivianoCA" class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $vl1CA; ?> </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-car-side fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de Medianos-->
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Medianos</div>
+                      <div id="vMedianoCA" class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $vl2CA; ?> </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-truck-pickup fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de Pesados-->
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Pesados</div>
+                      <div id="vPesadoCA" class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $vl3CA; ?></div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-truck-moving fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Finish Content Row Tarjets Via Catamayo-->
+
+          <!-- Content Row graficas Via Catamayo-->
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-6 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary text-uppercase"> Tráfico según tipo de vehículo</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="chart-Tipo-CA"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Area Chart 2 -->
+            <div class="col-xl-6 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary text-uppercase"> Tráfico según evento de Ingreso o Salida</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="chart-Even-CA"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Finish Content Row graficas Via Catamayo-->
+        </div>
+        <!-- Fin de Reporte - Catamayo -->
+
+        <!-- **************************************************************************************************************************************************************** -->
+        
+        <!-- Inicio de Reporte - Zamora -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Via Zamora</h1>
+          </div>
+          <!-- Content Row Tarjets Via Zamora -->
+          <div class="row">
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de vehículos-->
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total de Vehículos</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> <?php echo $vlZA; ?> </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-car fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de Livianos-->
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Livianos</div>
+                      <div id="vLivianoZA" class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $vl1ZA; ?> </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-car-side fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de Medianos-->
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Medianos</div>
+                      <div id="vMedianoZA" class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $vl2ZA; ?> </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-truck-pickup fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <!--Target Total de Pesados-->
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Pesados</div>
+                      <div id="vPesadoZA" class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $vl3ZA; ?></div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fa fa-truck-moving fa-2x text-gray-800"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Finish Content Row Tarjets Via Zamora-->
+
+          <!-- Content Row graficas Via Zamora-->
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-6 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary text-uppercase"> Tráfico según tipo de vehículo</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="chart-Tipo-ZA"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Area Chart 2 -->
+            <div class="col-xl-6 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary text-uppercase"> Tráfico según evento de Ingreso o Salida</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="chart-Even-ZA"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Finish Content Row graficas Via Zamora-->
+        </div>
+        <!-- Fin de Reporte - Zamora -->
+
+        <!-- **************************************************************************************************************************************************************** -->
 
       </div>
       <!-- End of Main Content -->
 
       <!--Footer-->
       <?php include 'layouts/footer.php'; ?>
-      <script src="js/chart/dashboard/chart-area.js"></script>
-      <script src="js/chart/dashboard/chart-area-evento.js"></script>
-      <script src="js/chart/dashboard/chart-pie.js"></script>
-      <script src="js/chart/dashboard/chart-pie-evento.js"></script>
+      <script src="js/chart/dashboard/cuenca/chart-home-cuenca-tipo.js"></script>
+      <script src="js/chart/dashboard/cuenca/chart-home-cuenca-evento.js"></script>
+
+      <script src="js/chart/dashboard/malacatos/chart-home-malacatos-tipo.js"></script>
+      <script src="js/chart/dashboard/malacatos/chart-home-malacatos-evento.js"></script>
+
+      <script src="js/chart/dashboard/catamayo/chart-home-catamayo-tipo.js"></script>
+      <script src="js/chart/dashboard/catamayo/chart-home-catamayo-evento.js"></script>
+
+      <script src="js/chart/dashboard/zamora/chart-home-zamora-tipo.js"></script>
+      <script src="js/chart/dashboard/zamora/chart-home-zamora-evento.js"></script>
+      chart-Home-Cuenca
       <!--Fin Footer-->

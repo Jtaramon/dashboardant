@@ -5,7 +5,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
 var vIng =  document.getElementById("VIngreso").innerHTML;
 var vSal =  document.getElementById("VSalida").innerHTML;
 
-var ctxE = document.getElementById("myAreaChartE");
+var ctxE = document.getElementById("chart-Even-CU");
 var myLineChartE = new Chart(ctxE, {
   type: 'bar',
   data: {

@@ -1,21 +1,19 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
-var vLiv =  document.getElementById("vLiviano").innerHTML;
-var vMed =  document.getElementById("vMediano").innerHTML;
-var vPes =  document.getElementById("vPesado").innerHTML;
 
+var vIng =  document.getElementById("VIngresoMA").innerHTML;
+var vSal =  document.getElementById("VSalidaMA").innerHTML;
 
-// Area Chart Example
-var ctx = document.getElementById("myAreaChart");
-var myLineChart = new Chart(ctx, {
+var ctxE = document.getElementById("chart-Even-MA");
+var myLineChartE = new Chart(ctxE, {
   type: 'bar',
   data: {
-    labels: ["Vehiculos Livianos", "Vehiculos Medianos", "Vehiculos Pesados"],
+    labels: ["Ingreso", "Salida"],
     datasets: [{
       label: "Nro",
       backgroundColor: ['rgb(246, 194, 62)','rgb(92, 126, 225)','rgb(78, 209, 162)'],
-      data: [ vLiv,vMed,vPes ],
+      data: [ vIng,vSal],
     }],
   },
   options: {
@@ -77,3 +75,4 @@ var myLineChart = new Chart(ctx, {
     }
   }
 });
+
