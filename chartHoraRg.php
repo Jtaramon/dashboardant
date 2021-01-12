@@ -14,32 +14,33 @@ require_once 'conexion.php';
 // Filtro hora - VLiviano
 $hora = $_POST['hora'];
 $via = $_POST['exampleFormControlSelect1'];
-$fecha = $_POST['fecha'];
+$fecha_antes = $_POST['fecha1'];
+$fecha_actual = $_POST['fecha2'];
 
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Liviano' AND via='$via' AND fecha = '$fecha'";
+$sql = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Liviano' AND via='$via' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
 $total = $mysqli->query($sql);
 $vl = mysqli_num_rows($total);
 
 // FIN Filtro hora
 
 // Filtro hora - VMediano
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Mediano' AND via='$via' AND fecha = '$fecha'";
+$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Mediano' AND via='$via' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
 $total1 = $mysqli->query($sql1);
 $vl1 = mysqli_num_rows($total1);
 
 // FIN Filtro hora
 
 // Filtro hora - VPesado
-$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Pesado' AND via='$via' AND fecha = '$fecha'";
+$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Pesado' AND via='$via' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
 $total2 = $mysqli->query($sql2);
 $vl2 = mysqli_num_rows($total2);
 
 //---------------------------------------------------GRAFICA 2-----------------------------------------------------
-$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND evento = 'Ingreso' AND via='$via' AND fecha = '$fecha'";
+$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND evento = 'Ingreso' AND via='$via' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
 $total3 = $mysqli->query($sql3);
 $vl3 = mysqli_num_rows($total3);
 
-$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND evento = 'Salida' AND via='$via' AND fecha = '$fecha'";
+$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND evento = 'Salida' AND via='$via' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
 $total4 = $mysqli->query($sql4);
 $vl4 = mysqli_num_rows($total4);
 
@@ -133,6 +134,9 @@ include 'layouts/header.php'; ?>
         </div>
       </li>
 
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="tables.php">
@@ -182,7 +186,7 @@ include 'layouts/header.php'; ?>
           <div class="row">
             <!-- Filtros -->
             <div class="col-xl-12 col-lg-11">
-              <form name="Filtro" method="post" action="chartHora.php">
+              <form name="Filtro" method="post" action="chartHoraRg.php">
                 <div class="input-group mb-3">
                   <select class="form-control" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
                     <option>Seleccionar la vía......</option>
@@ -192,7 +196,8 @@ include 'layouts/header.php'; ?>
                     <option value="Zamora">Zamora</option>
                   </select>
                   <input required type="text" class="form-control" placeholder="HH:MM:SS" name="hora" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejHora" required>
-                  <input type="date" class="form-control" min="2019-03-01" max="2019-03-30" placeholder="DD/MM/AAAA" name="fecha" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
+                  <input type="date" class="form-control" placeholder="DD/MM/AAAA" name="fecha1" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
+                  <input type="date" class="form-control" placeholder="DD/MM/AAAA" name="fecha2" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
                   <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit">Graficar</button>
                     <button class="btn btn-primary" type="button" onClick="Ejemplohora()">Cargar ejemplo</button>

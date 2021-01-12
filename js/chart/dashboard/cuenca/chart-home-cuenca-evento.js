@@ -41,6 +41,7 @@ var myLineChartE = new Chart(ctxE, {
       }],
       yAxes: [{
         ticks: {
+          min:0,
           maxTicksLimit: 5,
           padding: 10,
           

@@ -1,21 +1,21 @@
 <?php
-  //Iniciar Sesion nueva
-  session_start();
-  $varsesion = $_SESSION['usuario'];
-  if ($varsesion == null || $varsesion = '') {
-    echo 'Usted no tiene autorizacion';
-    die();
-  }
-  require_once 'conexion.php';
+//Iniciar Sesion nueva
+session_start();
+$varsesion = $_SESSION['usuario'];
+if ($varsesion == null || $varsesion = '') {
+  echo 'Usted no tiene autorizacion';
+  die();
+}
+require_once 'conexion.php';
 
-  $fecha_actual = date("d-m-Y");
-  $fecha_antes = date("d-m-Y", strtotime($fecha_actual . "- 7 days"));
-  
-  require_once 'layouts/dashboard/cuenca.php';
-  require_once 'layouts/dashboard/malacatos.php';
-  require_once 'layouts/dashboard/catamayo.php';
-  require_once 'layouts/dashboard/zamora.php';
-  
+$fecha_actual = date("Y-m-d");
+$fecha_antes = date("Y-m-d", strtotime($fecha_actual . "- 7 days"));
+
+require_once 'layouts/dashboard/cuenca.php';
+require_once 'layouts/dashboard/malacatos.php';
+require_once 'layouts/dashboard/catamayo.php';
+require_once 'layouts/dashboard/zamora.php';
+
 ?>
 
 <!--Header-->
@@ -62,26 +62,60 @@
           <span>Dashboard</span></a>
       </li>
 
-      <!-- Divider -->
       <hr class="sidebar-divider">
 
-      <!-- Nav Item - Charts -->
+      <!-- Nav Item - Graficas específicas -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Graficas</span>
+          <i class="fas fa-chart-bar"></i>
+          <span>Gráficas específicas</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Filtros</h6>
-            <a class="collapse-item" href="charts.php">Fecha</a>
-            <a class="collapse-item" href="chartHora.php">Hora</a>
-            <a class="collapse-item" href="chartVelocidad.php">Velocidad</a>
-            <a class="collapse-item" href="chartTraficoTV.php">Trafico Tipo de Vehiculo</a>
-            <a class="collapse-item" href="chartTraficoEV.php">Trafico Tipo de Evento</a>
+            <h6 class="collapse-header">Tráfico Según:</h6>
+            <a class="collapse-item" href="chartFecha.php">Fecha</a>
+            <a class="collapse-item" href="chartHora.php">Fecha - Hora</a>
+            <a class="collapse-item" href="chartVelocidad.php">Fecha - Hora - Velocidad</a>
           </div>
         </div>
       </li>
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Nav Item - Graficas Comparativas -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages1" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-chart-pie"></i>
+          <span>Gráficas Comparativas</span>
+        </a>
+        <div id="collapsePages1" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Tráfico Según:</h6>
+            <a class="collapse-item" href="chartTraficoTV.php">Tipo de Vehiculo</a>
+            <a class="collapse-item" href="chartTraficoEV.php">Tipo de Evento</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Nav Item - Graficas de rangos -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-chart-line"></i>
+          <span>Gráficas entre rangos</span>
+        </a>
+        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Medir trafico:</h6>
+            <a class="collapse-item" href="chartFechaRg.php">Fecha</a>
+            <a class="collapse-item" href="chartHoraRg.php">Fecha - Hora</a>
+            <a class="collapse-item" href="chartVelocidadRg.php">Fecha - Hora - Velocidad</a>
+          </div>
+        </div>
+      </li>
+
       <!-- Divider -->
       <hr class="sidebar-divider">
 
@@ -97,7 +131,7 @@
       <!-- Nav Item - Subir Datos -->
       <li class="nav-item">
         <a class="nav-link" href="ingresodatos.php">
-          <i class="fas fa-fw fa-table"></i>
+          <i class="fas fa-file-csv"></i>
           <span>Subir Datos</span></a>
       </li>
       <!-- Divider -->
@@ -122,21 +156,21 @@
         <!-- Topbar -->
         <?php include 'layouts/topbar.php'; ?>
         <!-- End of Topbar -->
-        
+
         <!-- **************************************************************************************************************************************************************** -->
 
         <!-- Inicio de Reporte - Cuenca -->
         <div class="container-fluid">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Via Cuenca</h1>
+            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Vía Cuenca</h1>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="window.print()"><i class="fas fa-download fa-sm text-white-50"></i> Generar Reporte</a>
           </div>
           <!-- Rango de Fecha-->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h6>
               <?php
-              echo "Fecha: " . $fecha_actual = date("d-m-Y") . " a " . date("d-m-Y", strtotime($fecha_actual . "- 7 days"));
+              echo "Fecha: Entre <strong>" . $fecha_antes . "</strong> al <strong>" . $fecha_actual . "</strong>";
               ?>
             </h6>
           </div>
@@ -251,12 +285,12 @@
         <!-- Fin de Reporte - Cuenca -->
 
         <!-- **************************************************************************************************************************************************************** -->
-        
+
         <!-- Inicio de Reporte - Malacatos -->
         <div class="container-fluid">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Via Malacatos</h1>
+            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Vía Malacatos</h1>
           </div>
           <!-- Content Row Tarjets Via Malacatos -->
           <div class="row">
@@ -368,12 +402,12 @@
         <!-- Fin de Reporte - Malacatos -->
 
         <!-- **************************************************************************************************************************************************************** -->
-        
+
         <!-- Inicio de Reporte - Catamayo -->
         <div class="container-fluid">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Via Catamayo</h1>
+            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Vía Catamayo</h1>
           </div>
           <!-- Content Row Tarjets Via Catamayo -->
           <div class="row">
@@ -485,12 +519,12 @@
         <!-- Fin de Reporte - Catamayo -->
 
         <!-- **************************************************************************************************************************************************************** -->
-        
+
         <!-- Inicio de Reporte - Zamora -->
         <div class="container-fluid">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Via Zamora</h1>
+            <h1 class="h3 mb-0 text-gray-800">Reporte Semanal Vía Zamora</h1>
           </div>
           <!-- Content Row Tarjets Via Zamora -->
           <div class="row">
@@ -619,5 +653,4 @@
 
       <script src="js/chart/dashboard/zamora/chart-home-zamora-tipo.js"></script>
       <script src="js/chart/dashboard/zamora/chart-home-zamora-evento.js"></script>
-      chart-Home-Cuenca
       <!--Fin Footer-->

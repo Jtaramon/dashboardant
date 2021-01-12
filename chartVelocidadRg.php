@@ -9,52 +9,62 @@ if ($varsesion == null || $varsesion = '') {
 }
 
 require_once 'conexion.php';
-//---------------------------------------------------GRAFICA 1-----------------------------------------------------
-
-// Filtro hora - VLiviano
-$hora = $_POST['hora'];
+//--------------------------------------------GRAFICO 1------------------------------------------------------
+// Filtro velocidad - VLiviano
+$velocidad = $_POST['velocidad'];
 $via = $_POST['exampleFormControlSelect1'];
-$fecha = $_POST['fecha'];
+$fecha_antes = $_POST['fecha1'];
+$fecha_actual = $_POST['fecha2'];
+$hora = $_POST['hora'];
 
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Liviano' AND via='$via' AND fecha = '$fecha'";
+$sql = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Liviano' AND via ='$via' AND hora = '$hora' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
 $total = $mysqli->query($sql);
 $vl = mysqli_num_rows($total);
 
-// FIN Filtro hora
+// FIN Filtro velocidad
 
-// Filtro hora - VMediano
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Mediano' AND via='$via' AND fecha = '$fecha'";
+
+// Filtro velocidad - VMediano
+$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Mediano' AND via ='$via' AND hora = '$hora' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
 $total1 = $mysqli->query($sql1);
 $vl1 = mysqli_num_rows($total1);
 
-// FIN Filtro hora
+// FIN Filtro velocidad
 
-// Filtro hora - VPesado
-$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Pesado' AND via='$via' AND fecha = '$fecha'";
+
+// Filtro velocidad - VPesado
+$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Pesado' AND via ='$via' AND hora = '$hora' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
 $total2 = $mysqli->query($sql2);
 $vl2 = mysqli_num_rows($total2);
 
+
 //---------------------------------------------------GRAFICA 2-----------------------------------------------------
-$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND evento = 'Ingreso' AND via='$via' AND fecha = '$fecha'";
+
+// Filtro velocidad - VMediano
+$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND evento = 'Ingreso' AND via ='$via' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND hora = '$hora'";
 $total3 = $mysqli->query($sql3);
 $vl3 = mysqli_num_rows($total3);
 
-$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND evento = 'Salida' AND via='$via' AND fecha = '$fecha'";
+// FIN Filtro velocidad
+
+
+// Filtro velocidad - VPesado
+$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND evento = 'Salida' AND via ='$via' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND hora = '$hora'";
 $total4 = $mysqli->query($sql4);
 $vl4 = mysqli_num_rows($total4);
 
-
-// FIN Filtro hora
+// FIN Filtro velocidad
 include 'layouts/header.php'; ?>
 <!--Fin Header-->
 
 <body id="page-top">
-  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VLivhora"> <?php echo $vl; ?> </div>
-  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VMedhora"> <?php echo $vl1; ?> </div>
-  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPeshora"> <?php echo $vl2; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VLivvelocidad"> <?php echo $vl; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VMedvelocidad"> <?php echo $vl1; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPesvelocidad"> <?php echo $vl2; ?> </div>
 
-  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VEvIngHora"> <?php echo $vl3; ?> </div>
-  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VEvSalHora"> <?php echo $vl4; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPesvelocidadEVin"> <?php echo $vl3; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPesvelocidadEVSal"> <?php echo $vl4; ?> </div>
+
 
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -133,6 +143,9 @@ include 'layouts/header.php'; ?>
         </div>
       </li>
 
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="tables.php">
@@ -178,11 +191,11 @@ include 'layouts/header.php'; ?>
           <h1 class="h3 mb-2 text-gray-800">Graficos Estadisticos</h1>
           <p class="mb-4">Controla el nro. de vehiculos</p>
 
-          <!-- Grafica fecha hora Tipo y Evento -->
+          <!-- Grafica Fecha Hora Velocidad - Tipo y Evento-->
           <div class="row">
-            <!-- Filtros -->
+            <!-- FILTROS-->
             <div class="col-xl-12 col-lg-11">
-              <form name="Filtro" method="post" action="chartHora.php">
+              <form name="Filtro" method="post" action="chartVelocidadRg.php">
                 <div class="input-group mb-3">
                   <select class="form-control" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
                     <option>Seleccionar la vía......</option>
@@ -191,25 +204,27 @@ include 'layouts/header.php'; ?>
                     <option value="Catamayo">Catamayo</option>
                     <option value="Zamora">Zamora</option>
                   </select>
+                  <input type="date" class="form-control" placeholder="DD/MM/AAAA" name="fecha1" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
+                  <input type="date" class="form-control" placeholder="DD/MM/AAAA" name="fecha2" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
                   <input required type="text" class="form-control" placeholder="HH:MM:SS" name="hora" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejHora" required>
-                  <input type="date" class="form-control" min="2019-03-01" max="2019-03-30" placeholder="DD/MM/AAAA" name="fecha" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
+                  <input type="text" class="form-control" placeholder="Ingrese la velocidad" name="velocidad" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejVelocidad">
                   <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit">Graficar</button>
-                    <button class="btn btn-primary" type="button" onClick="Ejemplohora()">Cargar ejemplo</button>
+                    <button class="btn btn-primary" type="button" onClick="Ejemplovelocidad()">Cargar ejemplo</button>
                   </div>
                 </div>
               </form>
             </div>
-            <!-- Fin Filtros -->
+            <!-- Fin FILTROS-->
             <div class="col-xl-6 col-lg-5">
               <!-- Area Chart -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Ingrese la hora en el siguiente formato:</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Ingrese la Velocidad</h6>
                 </div>
                 <div class="card-body">
                   <div class="chart-area">
-                    <canvas id="chartHoraArea"></canvas>
+                    <canvas id="chartvelocidadArea"></canvas>
                   </div>
                   <hr>
                 </div>
@@ -220,18 +235,18 @@ include 'layouts/header.php'; ?>
               <!-- Area Chart -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Gráfica de los vehiculos que ingresan y salen en la Hora seleccionada:</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Ingrese la Velocidad</h6>
                 </div>
                 <div class="card-body">
                   <div class="chart-area">
-                    <canvas id="chartHoraAreaEv"></canvas>
+                    <canvas id="chartvelocidadAreaEV"></canvas>
                   </div>
                   <hr>
                 </div>
               </div>
             </div>
           </div>
-          <!-- Fin Grafica fecha hora Tipo y Evento -->
+          <!-- Fin Grafica Fecha Hora Velocidad - Tipo y Evento-->
         </div>
         <!-- /.container-fluid -->
       </div>
@@ -239,12 +254,11 @@ include 'layouts/header.php'; ?>
 
       <!--Footer-->
       <?php include 'layouts/footer.php'; ?>
+      <script src="js/chart/velocidad/filtroVelocidadArea.js"></script>
+      <script src="js/chart/velocidad/filtroVelocidadPie.js"></script>
 
-      <script src="js/chart/hora/filtroHoraArea.js"></script>
-      <script src="js/chart/hora/filtroHoraPie.js"></script>
-
-      <script src="js/chart/hora/filtroHoraAreaEv.js"></script>
-      <script src="js/chart/hora/filtroHoraPieEv.js"></script>
+      <script src="js/chart/velocidad/filtroVelocidadAreaEV.js"></script>
+      <script src="js/chart/velocidad/filtroVelocidadPieEV.js"></script>
 
       <script src="js/cargarEjemplos.js"></script>
 

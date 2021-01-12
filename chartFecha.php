@@ -9,52 +9,51 @@ if ($varsesion == null || $varsesion = '') {
 }
 
 require_once 'conexion.php';
-//---------------------------------------------------GRAFICA 1-----------------------------------------------------
-
-// Filtro hora - VLiviano
-$hora = $_POST['hora'];
-$via = $_POST['exampleFormControlSelect1'];
+//----------------------------------------------------------GRAFICO 1-----------------------------------------------
+// Filtro fecha - VLiviano
 $fecha = $_POST['fecha'];
+$via = $_POST['exampleFormControlSelect1'];
 
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Liviano' AND via='$via' AND fecha = '$fecha'";
+$sql = "SELECT id_vehiculo FROM vehiculos WHERE fecha = '$fecha' AND tipo_vehiculo = 'Vehículo Liviano' AND via = '$via'";
 $total = $mysqli->query($sql);
 $vl = mysqli_num_rows($total);
 
-// FIN Filtro hora
+// FIN Filtro fecha
 
-// Filtro hora - VMediano
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Mediano' AND via='$via' AND fecha = '$fecha'";
+
+// Filtro fecha - VMediano
+$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE fecha = '$fecha' AND tipo_vehiculo = 'Vehículo Mediano' AND via = '$via'";
 $total1 = $mysqli->query($sql1);
 $vl1 = mysqli_num_rows($total1);
 
-// FIN Filtro hora
+// FIN Filtro fecha
 
-// Filtro hora - VPesado
-$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Pesado' AND via='$via' AND fecha = '$fecha'";
+
+// Filtro fecha - VPesado
+$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE fecha = '$fecha' AND tipo_vehiculo = 'Vehículo Pesado' AND via = '$via'";
 $total2 = $mysqli->query($sql2);
 $vl2 = mysqli_num_rows($total2);
+//----------------------------------------------------------GRAFICO 2-----------------------------------------------
 
-//---------------------------------------------------GRAFICA 2-----------------------------------------------------
-$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND evento = 'Ingreso' AND via='$via' AND fecha = '$fecha'";
+$sql3 = "SELECT * FROM vehiculos WHERE fecha = '$fecha' AND evento = 'Ingreso' AND via = '$via'";
 $total3 = $mysqli->query($sql3);
 $vl3 = mysqli_num_rows($total3);
 
-$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND evento = 'Salida' AND via='$via' AND fecha = '$fecha'";
+$sql4 = "SELECT * FROM vehiculos WHERE fecha = '$fecha' AND evento = 'Salida' AND via = '$via'";
 $total4 = $mysqli->query($sql4);
 $vl4 = mysqli_num_rows($total4);
 
-
-// FIN Filtro hora
+// FIN Filtro fecha
 include 'layouts/header.php'; ?>
 <!--Fin Header-->
 
 <body id="page-top">
-  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VLivhora"> <?php echo $vl; ?> </div>
-  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VMedhora"> <?php echo $vl1; ?> </div>
-  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPeshora"> <?php echo $vl2; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VLivFecha"> <?php echo $vl; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VMedFecha"> <?php echo $vl1; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VPesFecha"> <?php echo $vl2; ?> </div>
 
-  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VEvIngHora"> <?php echo $vl3; ?> </div>
-  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VEvSalHora"> <?php echo $vl4; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VEvIngFecha"> <?php echo $vl3; ?> </div>
+  <div class="h5 mb-0 font-weight-bold text-gray-800" style="display:none" id="VEvSalFecha"> <?php echo $vl4; ?> </div>
 
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -120,7 +119,7 @@ include 'layouts/header.php'; ?>
       <!-- Nav Item - Graficas de rangos -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
-        <i class="fas fa-chart-line"></i>
+          <i class="fas fa-chart-line"></i>
           <span>Gráficas entre rangos</span>
         </a>
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -145,7 +144,7 @@ include 'layouts/header.php'; ?>
       <!-- Nav Item - Subir Datos -->
       <li class="nav-item">
         <a class="nav-link" href="ingresodatos.php">
-        <i class="fas fa-file-csv"></i>
+          <i class="fas fa-file-csv"></i>
           <span>Subir Datos</span></a>
       </li>
       <!-- Divider -->
@@ -175,14 +174,13 @@ include 'layouts/header.php'; ?>
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Graficos Estadisticos</h1>
+          <h1 class="h3 mb-2 text-gray-800">Gráficos Estadísticos</h1>
           <p class="mb-4">Controla el nro. de vehiculos</p>
 
-          <!-- Grafica fecha hora Tipo y Evento -->
+          <!-- Grafico 1 Fecha Tipo Vehiculo y Evento -->
           <div class="row">
-            <!-- Filtros -->
             <div class="col-xl-12 col-lg-11">
-              <form name="Filtro" method="post" action="chartHora.php">
+              <form name="Filtro" method="post" action="chartFecha.php">
                 <div class="input-group mb-3">
                   <select class="form-control" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
                     <option>Seleccionar la vía......</option>
@@ -191,47 +189,45 @@ include 'layouts/header.php'; ?>
                     <option value="Catamayo">Catamayo</option>
                     <option value="Zamora">Zamora</option>
                   </select>
-                  <input required type="text" class="form-control" placeholder="HH:MM:SS" name="hora" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejHora" required>
                   <input type="date" class="form-control" min="2019-03-01" max="2019-03-30" placeholder="DD/MM/AAAA" name="fecha" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
                   <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit">Graficar</button>
-                    <button class="btn btn-primary" type="button" onClick="Ejemplohora()">Cargar ejemplo</button>
+                    <button class="btn btn-primary" type="button" onClick="Ejemplofecha()">Cargar ejemplo</button>
                   </div>
                 </div>
               </form>
             </div>
-            <!-- Fin Filtros -->
             <div class="col-xl-6 col-lg-5">
               <!-- Area Chart -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Ingrese la hora en el siguiente formato:</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Ingrese la Fecha y la Vía: </h6>
                 </div>
                 <div class="card-body">
                   <div class="chart-area">
-                    <canvas id="chartHoraArea"></canvas>
+                    <canvas id="chartFechaArea"></canvas>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-5">
+              <!-- Area Chart -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Gráfica de los vehiculos que ingresan y salen en la fecha seleccionada:</h6>
+                </div>
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="chartFechaAreaEv"></canvas>
                   </div>
                   <hr>
                 </div>
               </div>
 
             </div>
-            <div class="col-xl-6 col-lg-5">
-              <!-- Area Chart -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Gráfica de los vehiculos que ingresan y salen en la Hora seleccionada:</h6>
-                </div>
-                <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="chartHoraAreaEv"></canvas>
-                  </div>
-                  <hr>
-                </div>
-              </div>
-            </div>
           </div>
-          <!-- Fin Grafica fecha hora Tipo y Evento -->
+          <!-- Fin Grafico 1 Fecha Tipo Vehiculo y Evento -->
         </div>
         <!-- /.container-fluid -->
       </div>
@@ -239,13 +235,11 @@ include 'layouts/header.php'; ?>
 
       <!--Footer-->
       <?php include 'layouts/footer.php'; ?>
+      <script src="js/chart/fecha/filtroFechaArea.js"></script>
+      <script src="js/chart/fecha/filtroFechaPie.js"></script>
 
-      <script src="js/chart/hora/filtroHoraArea.js"></script>
-      <script src="js/chart/hora/filtroHoraPie.js"></script>
-
-      <script src="js/chart/hora/filtroHoraAreaEv.js"></script>
-      <script src="js/chart/hora/filtroHoraPieEv.js"></script>
-
+      <script src="js/chart/fecha/filtroFechaAreaEv.js"></script>
+      <script src="js/chart/fecha/filtroFechaPieEv.js"></script>
       <script src="js/cargarEjemplos.js"></script>
 
       <!--Fin Footer-->
