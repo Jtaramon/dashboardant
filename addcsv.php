@@ -2,9 +2,9 @@
 <?php
 require 'conexion.php';
 
-function insertar_datos($evento, $tipo_vehiculo, $velocidad, $fecha, $hora, $via){
+function insertar_datos($fecha, $hora ,$velocidad,$tipo_vehiculo, $sentido_circulacion){
     global $conexion;
-    $sentencia = "INSERT INTO vehiculos (evento, tipo_vehiculo, velocidad, fecha, hora, via) VALUES ('$evento', '$tipo_vehiculo', $velocidad, '$fecha', '$hora', '$via')";
+    $sentencia = "INSERT INTO vehiculos (fecha, hora, velocidad, tipo_vehiculo, sentido_circulacion) VALUES ('$fecha', '$hora', '$velocidad', '$tipo_vehiculo', '$sentido_circulacion')";
     $ejecutar = mysqli_query($conexion,$sentencia);
     return $ejecutar;
     echo '<script src="js/sweetAlert.js"></script>';

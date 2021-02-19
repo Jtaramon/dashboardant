@@ -14,32 +14,49 @@ require_once 'conexion.php';
 // Filtro hora - VLiviano
 $hora = $_POST['hora'];
 $via = $_POST['exampleFormControlSelect1'];
-$fecha = $_POST['fecha'];
+$fecha1 = $_POST['fecha'];
+$fecha = date("m/d/Y", strtotime($fecha1));
 
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Liviano' AND via='$via' AND fecha = '$fecha'";
+$ingreso = '';
+$salida = '';
+if ($via == 'Cuenca') {
+  $ingreso = 'Cuenca - Loja';
+  $salida = 'Loja - Cuenca';
+} elseif ($via == 'Malacatos') {
+  $ingreso = 'Malacatos - Loja';
+  $salida = 'Loja - Malacatos';
+} elseif ($via == 'Catamayo') {
+  $ingreso = 'Catamayo - Loja';
+  $salida = 'Loja - Catamayo';
+} elseif ($via == 'Zamora') {
+  $ingreso = 'Zamora - Loja';
+  $salida = 'Loja - Zamora';
+};
+
+$sql = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Liviano' AND sentido_circulacion LIKE '%$via%' AND fecha = '$fecha'";
 $total = $mysqli->query($sql);
 $vl = mysqli_num_rows($total);
 
 // FIN Filtro hora
 
 // Filtro hora - VMediano
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Mediano' AND via='$via' AND fecha = '$fecha'";
+$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Mediano' AND sentido_circulacion LIKE '%$via%' AND fecha = '$fecha'";
 $total1 = $mysqli->query($sql1);
 $vl1 = mysqli_num_rows($total1);
 
 // FIN Filtro hora
 
 // Filtro hora - VPesado
-$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Vehículo Pesado' AND via='$via' AND fecha = '$fecha'";
+$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND tipo_vehiculo = 'Pesado' AND sentido_circulacion LIKE '%$via%' AND fecha = '$fecha'";
 $total2 = $mysqli->query($sql2);
 $vl2 = mysqli_num_rows($total2);
 
 //---------------------------------------------------GRAFICA 2-----------------------------------------------------
-$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND evento = 'Ingreso' AND via='$via' AND fecha = '$fecha'";
+$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND sentido_circulacion = '$ingreso' AND fecha = '$fecha'";
 $total3 = $mysqli->query($sql3);
 $vl3 = mysqli_num_rows($total3);
 
-$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND evento = 'Salida' AND via='$via' AND fecha = '$fecha'";
+$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND sentido_circulacion = '$salida' AND fecha = '$fecha'";
 $total4 = $mysqli->query($sql4);
 $vl4 = mysqli_num_rows($total4);
 
@@ -192,7 +209,7 @@ include 'layouts/header.php'; ?>
                     <option value="Zamora">Zamora</option>
                   </select>
                   <input required type="text" class="form-control" placeholder="HH:MM:SS" name="hora" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejHora" required>
-                  <input type="date" class="form-control" min="2019-03-01" max="2019-03-30" placeholder="DD/MM/AAAA" name="fecha" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
+                  <input type="date" class="form-control" min="2019-12-01" max="2019-12-30" placeholder="DD/MM/AAAA" name="fecha" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
                   <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit">Graficar</button>
                     <button class="btn btn-primary" type="button" onClick="Ejemplohora()">Cargar ejemplo</button>

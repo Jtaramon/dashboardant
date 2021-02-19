@@ -11,11 +11,29 @@ if ($varsesion == null || $varsesion = '') {
 require_once 'conexion.php';
 //----------------------------------------------------------GRAFICO 1-----------------------------------------------
 // Filtro fecha - VLiviano
-$fecha_antes = $_POST['fecha1'];
-$fecha_actual = $_POST['fecha2'];
-$via = $_POST['exampleFormControlSelect1'];
+$fecha_antesA = $_POST['fecha1'];
+$fecha_antes = date("m/d/Y", strtotime($fecha_antesA));
+$fecha_actualA = $_POST['fecha2'];
+$fecha_actual = date("m/d/Y", strtotime($fecha_actualA));
 
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND tipo_vehiculo = 'Vehículo Liviano' AND via = '$via'";
+$via = $_POST['exampleFormControlSelect1'];
+$ingreso = '';
+$salida = '';
+if ($via == 'Cuenca') {
+  $ingreso = 'Cuenca - Loja';
+  $salida = 'Loja - Cuenca';
+} elseif ($via == 'Malacatos') {
+  $ingreso = 'Malacatos - Loja';
+  $salida = 'Loja - Malacatos';
+} elseif ($via == 'Catamayo') {
+  $ingreso = 'Catamayo - Loja';
+  $salida = 'Loja - Catamayo';
+} elseif ($via == 'Zamora') {
+  $ingreso = 'Zamora - Loja';
+  $salida = 'Loja - Zamora';
+};
+
+$sql = "SELECT  id_vehiculo FROM vehiculos WHERE fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND tipo_vehiculo = 'Liviano' AND sentido_circulacion LIKE '%$via%' ";
 $total = $mysqli->query($sql);
 $vl = mysqli_num_rows($total);
 
@@ -23,7 +41,7 @@ $vl = mysqli_num_rows($total);
 
 
 // Filtro fecha - VMediano
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND tipo_vehiculo = 'Vehículo Mediano' AND via = '$via'";
+$sql1 = "SELECT  id_vehiculo FROM vehiculos WHERE fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND tipo_vehiculo = 'Mediano' AND sentido_circulacion LIKE '%$via%' ";
 $total1 = $mysqli->query($sql1);
 $vl1 = mysqli_num_rows($total1);
 
@@ -31,16 +49,16 @@ $vl1 = mysqli_num_rows($total1);
 
 
 // Filtro fecha - VPesado
-$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND tipo_vehiculo = 'Vehículo Pesado' AND via = '$via'";
+$sql2 = "SELECT  id_vehiculo FROM vehiculos WHERE fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND tipo_vehiculo = 'Pesado' AND sentido_circulacion LIKE '%$via%' ";
 $total2 = $mysqli->query($sql2);
 $vl2 = mysqli_num_rows($total2);
 //----------------------------------------------------------GRAFICO 2-----------------------------------------------
 
-$sql3 = "SELECT * FROM vehiculos WHERE fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND evento = 'Ingreso' AND via = '$via'";
+$sql3 = "SELECT * FROM vehiculos WHERE fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND sentido_circulacion = '$ingreso'";
 $total3 = $mysqli->query($sql3);
 $vl3 = mysqli_num_rows($total3);
 
-$sql4 = "SELECT * FROM vehiculos WHERE fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND evento = 'Salida' AND via = '$via'";
+$sql4 = "SELECT * FROM vehiculos WHERE fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND sentido_circulacion = '$salida'";
 $total4 = $mysqli->query($sql4);
 $vl4 = mysqli_num_rows($total4);
 
@@ -120,7 +138,7 @@ include 'layouts/header.php'; ?>
       <!-- Nav Item - Graficas de rangos -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
-        <i class="fas fa-chart-line"></i>
+          <i class="fas fa-chart-line"></i>
           <span>Gráficas entre rangos</span>
         </a>
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -148,7 +166,7 @@ include 'layouts/header.php'; ?>
       <!-- Nav Item - Subir Datos -->
       <li class="nav-item">
         <a class="nav-link" href="ingresodatos.php">
-        <i class="fas fa-file-csv"></i>
+          <i class="fas fa-file-csv"></i>
           <span>Subir Datos</span></a>
       </li>
       <!-- Divider -->
@@ -193,8 +211,8 @@ include 'layouts/header.php'; ?>
                     <option value="Catamayo">Catamayo</option>
                     <option value="Zamora">Zamora</option>
                   </select>
-                  <input type="date" class="form-control" placeholder="DD/MM/AAAA" name="fecha1" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
-                  <input type="date" class="form-control" placeholder="DD/MM/AAAA" name="fecha2" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
+                  <input type="date" class="form-control" placeholder="DD/MM/AAAA" min="2019-12-01" max="2019-12-30" name="fecha1" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
+                  <input type="date" class="form-control" placeholder="DD/MM/AAAA" min="2019-12-01" max="2019-12-30" name="fecha2" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
                   <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit">Graficar</button>
                     <button class="btn btn-primary" type="button" onClick="Ejemplofecha()">Cargar ejemplo</button>

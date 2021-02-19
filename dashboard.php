@@ -8,8 +8,14 @@ if ($varsesion == null || $varsesion = '') {
 }
 require_once 'conexion.php';
 
-$fecha_actual = date("Y-m-d");
-$fecha_antes = date("Y-m-d", strtotime($fecha_actual . "- 7 days"));
+//$fecha_actual1 = date("Y-m-d");
+//$fecha_actual = date("m/d/Y", strtotime($fecha_actual1));
+$fecha_actual = '04/06/2019';
+
+//$fecha_antes1 = date("Y-m-d", strtotime($fecha_actual1 . "- 7 days"));
+//$fecha_antes = date("m/d/Y", strtotime($fecha_antes1));
+$fecha_antes = '04/01/2019';
+
 
 require_once 'layouts/dashboard/cuenca.php';
 require_once 'layouts/dashboard/malacatos.php';

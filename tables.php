@@ -157,23 +157,21 @@ $resultado = $mysqli->query($sql);
                   <thead>
                     <tr>
                       <th>Id</th>
-                      <th>Evento</th>
-                      <th>Tipo Vehiculo</th>
-                      <th>Velocidad</th>
                       <th>Fecha</th>
                       <th>Hora</th>
-                      <th>Vía</th>
+                      <th>Velocidad</th>
+                      <th>Tipo De Vehiculo</th>
+                      <th>Sentido De Circulacion</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>Id</th>
-                      <th>Evento</th>
-                      <th>Tipo Vehiculo</th>
-                      <th>Velocidad</th>
                       <th>Fecha</th>
                       <th>Hora</th>
-                      <th>Vía</th>
+                      <th>Velocidad</th>
+                      <th>Tipo De Vehiculo</th>
+                      <th>Sentido De Circulacion</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -181,12 +179,11 @@ $resultado = $mysqli->query($sql);
 
                       <tr>
                         <td><?php echo $row['id_vehiculo']; ?></td>
-                        <td><?php echo $row['evento']; ?></td>
-                        <td><?php echo $row['tipo_vehiculo']; ?></td>
-                        <td><?php echo $row['velocidad']; ?></td>
                         <td><?php echo $row['fecha']; ?></td>
                         <td><?php echo $row['hora']; ?></td>
-                        <td><?php echo $row['via']; ?></td>
+                        <td><?php echo $row['velocidad']; ?></td>
+                        <td><?php echo $row['tipo_vehiculo']; ?></td>
+                        <td><?php echo $row['sentido_circulacion']; ?></td>
                       </tr>
                     <?php } ?>
 

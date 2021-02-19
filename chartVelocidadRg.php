@@ -13,11 +13,29 @@ require_once 'conexion.php';
 // Filtro velocidad - VLiviano
 $velocidad = $_POST['velocidad'];
 $via = $_POST['exampleFormControlSelect1'];
-$fecha_antes = $_POST['fecha1'];
-$fecha_actual = $_POST['fecha2'];
+$fecha_antes1 = $_POST['fecha1'];
+$fecha_antes = date("m/d/Y", strtotime($fecha_antes1));
+$fecha_actual1 = $_POST['fecha2'];
+$fecha_actual = date("m/d/Y", strtotime($fecha_actual1));
 $hora = $_POST['hora'];
 
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Liviano' AND via ='$via' AND hora = '$hora' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
+$ingreso = '';
+$salida = '';
+if ($via == 'Cuenca') {
+  $ingreso = 'Cuenca - Loja';
+  $salida = 'Loja - Cuenca';
+} elseif ($via == 'Malacatos') {
+  $ingreso = 'Malacatos - Loja';
+  $salida = 'Loja - Malacatos';
+} elseif ($via == 'Catamayo') {
+  $ingreso = 'Catamayo - Loja';
+  $salida = 'Loja - Catamayo';
+} elseif ($via == 'Zamora') {
+  $ingreso = 'Zamora - Loja';
+  $salida = 'Loja - Zamora';
+};
+
+$sql = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad km/h' AND tipo_vehiculo = 'Liviano' AND hora = '$hora' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND sentido_circulacion LIKE '%$via%'";
 $total = $mysqli->query($sql);
 $vl = mysqli_num_rows($total);
 
@@ -25,7 +43,7 @@ $vl = mysqli_num_rows($total);
 
 
 // Filtro velocidad - VMediano
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Mediano' AND via ='$via' AND hora = '$hora' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
+$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad km/h' AND tipo_vehiculo = 'Mediano' AND hora = '$hora' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND sentido_circulacion LIKE '%$via%'";
 $total1 = $mysqli->query($sql1);
 $vl1 = mysqli_num_rows($total1);
 
@@ -33,7 +51,7 @@ $vl1 = mysqli_num_rows($total1);
 
 
 // Filtro velocidad - VPesado
-$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Pesado' AND via ='$via' AND hora = '$hora' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual'";
+$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad km/h' AND tipo_vehiculo = 'Pesado' AND hora = '$hora' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND sentido_circulacion LIKE '%$via%'";
 $total2 = $mysqli->query($sql2);
 $vl2 = mysqli_num_rows($total2);
 
@@ -41,7 +59,7 @@ $vl2 = mysqli_num_rows($total2);
 //---------------------------------------------------GRAFICA 2-----------------------------------------------------
 
 // Filtro velocidad - VMediano
-$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND evento = 'Ingreso' AND via ='$via' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND hora = '$hora'";
+$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad km/h' AND sentido_circulacion = '$ingreso' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND hora = '$hora'";
 $total3 = $mysqli->query($sql3);
 $vl3 = mysqli_num_rows($total3);
 
@@ -49,7 +67,7 @@ $vl3 = mysqli_num_rows($total3);
 
 
 // Filtro velocidad - VPesado
-$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND evento = 'Salida' AND via ='$via' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND hora = '$hora'";
+$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad km/h' AND sentido_circulacion = '$salida' AND fecha BETWEEN '$fecha_antes' AND '$fecha_actual' AND hora = '$hora'";
 $total4 = $mysqli->query($sql4);
 $vl4 = mysqli_num_rows($total4);
 

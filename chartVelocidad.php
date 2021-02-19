@@ -13,10 +13,27 @@ require_once 'conexion.php';
 // Filtro velocidad - VLiviano
 $velocidad = $_POST['velocidad'];
 $via = $_POST['exampleFormControlSelect1'];
-$fecha = $_POST['fecha'];
 $hora = $_POST['hora'];
+$fecha1 = $_POST['fecha'];
+$fecha = date("m/d/Y", strtotime($fecha1));
 
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Liviano' AND via ='$via' AND fecha = '$fecha' AND hora = '$hora'";
+$ingreso = '';
+$salida = '';
+if ($via == 'Cuenca') {
+  $ingreso = 'Cuenca - Loja';
+  $salida = 'Loja - Cuenca';
+} elseif ($via == 'Malacatos') {
+  $ingreso = 'Malacatos - Loja';
+  $salida = 'Loja - Malacatos';
+} elseif ($via == 'Catamayo') {
+  $ingreso = 'Catamayo - Loja';
+  $salida = 'Loja - Catamayo';
+} elseif ($via == 'Zamora') {
+  $ingreso = 'Zamora - Loja';
+  $salida = 'Loja - Zamora';
+};
+
+$sql = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad km/h' AND tipo_vehiculo = 'Liviano' AND sentido_circulacion LIKE '%$via%' AND fecha = '$fecha' AND hora = '$hora'";
 $total = $mysqli->query($sql);
 $vl = mysqli_num_rows($total);
 
@@ -24,7 +41,7 @@ $vl = mysqli_num_rows($total);
 
 
 // Filtro velocidad - VMediano
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Mediano' AND via ='$via' AND fecha = '$fecha' AND hora = '$hora'";
+$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad km/h' AND tipo_vehiculo = 'Mediano' AND sentido_circulacion LIKE '%$via%' AND fecha = '$fecha' AND hora = '$hora'";
 $total1 = $mysqli->query($sql1);
 $vl1 = mysqli_num_rows($total1);
 
@@ -32,7 +49,7 @@ $vl1 = mysqli_num_rows($total1);
 
 
 // Filtro velocidad - VPesado
-$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND tipo_vehiculo = 'Vehículo Pesado' AND via ='$via' AND fecha = '$fecha' AND hora = '$hora'";
+$sql2 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad km/h' AND tipo_vehiculo = 'Pesado' AND sentido_circulacion LIKE '%$via%' AND fecha = '$fecha' AND hora = '$hora'";
 $total2 = $mysqli->query($sql2);
 $vl2 = mysqli_num_rows($total2);
 
@@ -40,7 +57,7 @@ $vl2 = mysqli_num_rows($total2);
 //---------------------------------------------------GRAFICA 2-----------------------------------------------------
 
 // Filtro velocidad - VMediano
-$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND evento = 'Ingreso' AND via ='$via' AND fecha = '$fecha' AND hora = '$hora'";
+$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad km/h' AND sentido_circulacion = '$ingreso' AND fecha = '$fecha' AND hora = '$hora'";
 $total3 = $mysqli->query($sql3);
 $vl3 = mysqli_num_rows($total3);
 
@@ -48,7 +65,7 @@ $vl3 = mysqli_num_rows($total3);
 
 
 // Filtro velocidad - VPesado
-$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad' AND evento = 'Salida' AND via ='$via' AND fecha = '$fecha' AND hora = '$hora'";
+$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE velocidad = '$velocidad km/h' AND sentido_circulacion = '$salida' AND fecha = '$fecha' AND hora = '$hora'";
 $total4 = $mysqli->query($sql4);
 $vl4 = mysqli_num_rows($total4);
 
@@ -200,7 +217,7 @@ include 'layouts/header.php'; ?>
                     <option value="Catamayo">Catamayo</option>
                     <option value="Zamora">Zamora</option>
                   </select>
-                  <input type="date" class="form-control" min="2019-03-01" max="2019-03-30" placeholder="DD/MM/AAAA" name="fecha" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
+                  <input type="date" class="form-control" min="2019-12-01" max="2019-12-30" placeholder="DD/MM/AAAA" name="fecha" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejFecha" required>
                   <input required type="text" class="form-control" placeholder="HH:MM:SS" name="hora" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejHora" required>
                   <input type="text" class="form-control" placeholder="Ingrese la velocidad" name="velocidad" aria-label="Recipient's username" aria-describedby="basic-addon2" id="ejVelocidad">
                   <div class="input-group-append">

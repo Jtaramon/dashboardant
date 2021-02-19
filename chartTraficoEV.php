@@ -13,17 +13,34 @@ require_once 'conexion.php';
 //--------------------------------------------GRAFICO 1-----------------------------------------------------------
 //Total de Vehiculos 1
 $hora = $_POST['hora'];
-$fecha = $_POST['fecha'];
+$fecha5 = $_POST['fecha'];
+$fecha = date("m/d/Y", strtotime($fecha5));
 $via = $_POST['exampleFormControlSelect1'];
 
-$sqlT = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND fecha = '$fecha' AND via = '$via'";
+$ingreso = '';
+$salida = '';
+if ($via == 'Cuenca') {
+  $ingreso = 'Cuenca - Loja';
+  $salida = 'Loja - Cuenca';
+} elseif ($via == 'Malacatos') {
+  $ingreso = 'Malacatos - Loja';
+  $salida = 'Loja - Malacatos';
+} elseif ($via == 'Catamayo') {
+  $ingreso = 'Catamayo - Loja';
+  $salida = 'Loja - Catamayo';
+} elseif ($via == 'Zamora') {
+  $ingreso = 'Zamora - Loja';
+  $salida = 'Loja - Zamora';
+};
+
+$sqlT = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND fecha = '$fecha' AND sentido_circulacion LIKE '%$via%'";
 $totalT = $mysqli->query($sqlT);
 $vlT = mysqli_num_rows($totalT);
 //Total de Vehiculos 1
 
 
 // Filtro hora - VLiviano
-$sql = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND fecha = '$fecha' AND evento = 'Ingreso' AND via = '$via'";
+$sql = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND fecha = '$fecha'  AND sentido_circulacion = '$ingreso'";
 $total = $mysqli->query($sql);
 $vl = mysqli_num_rows($total);
 
@@ -32,7 +49,7 @@ $vl = mysqli_num_rows($total);
 
 
 // Filtro hora - VMediano
-$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND fecha = '$fecha' AND evento = 'Salida' AND via = '$via'";
+$sql1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora' AND fecha = '$fecha' AND sentido_circulacion = '$salida'";
 $total1 = $mysqli->query($sql1);
 $vl1 = mysqli_num_rows($total1);
 
@@ -42,21 +59,24 @@ $vl1 = mysqli_num_rows($total1);
 
 //Total de Vehiculos 2
 $hora1 = $_POST['hora1'];
-$fecha1 = $_POST['fecha1'];
-$sqlT1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora1' AND fecha = '$fecha1' AND via = '$via'";
+$fecha7 = $_POST['fecha1'];
+$fecha1 = date("m/d/Y", strtotime($fecha7));
+
+$sqlT1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora1' AND fecha = '$fecha1' AND sentido_circulacion LIKE '%$via%'";
 $totalT1 = $mysqli->query($sqlT1);
 $vlT1 = mysqli_num_rows($totalT1);
 //Total de Vehiculos 2
 
 // Filtro hora - VLiviano
-$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora1' AND fecha = '$fecha1' AND evento = 'Ingreso' AND via = '$via'";
+$sql3 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora1' AND fecha = '$fecha1' AND sentido_circulacion = '$ingreso'";
 $total3 = $mysqli->query($sql3);
 $vl3 = mysqli_num_rows($total3);
 // FIN Filtro hora
 
 
 // Filtro hora - VMediano
-$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora1' AND fecha = '$fecha1' AND evento = 'Salida' AND via = '$via'";
+$sql4 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$hora1' AND fecha = '$fecha1' AND sentido_circulacion = '$salida
+'";
 $total4 = $mysqli->query($sql4);
 $vl4 = mysqli_num_rows($total4);
 // FIN Filtro hora
@@ -66,52 +86,54 @@ $vl4 = mysqli_num_rows($total4);
 
 //Total de Vehiculos 2
 $horaV = $_POST['horaV'];
-$fechaV = $_POST['fechaV'];
+$fechaV11 = $_POST['fechaV'];
+$fechaV = date("m/d/Y", strtotime($fechaV11));
 $velocidad = $_POST['velo'];
 
 $horaV1 = $_POST['horaV1'];
-$fechaV1 = $_POST['fechaV1'];
+$fechaV12 = $_POST['fechaV1'];
+$fechaV1 = date("m/d/Y", strtotime($fechaV12));
 $velocidad1 = $_POST['velo1'];
 
-$sqlV = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV' AND fecha = '$fechaV' AND velocidad = '$velocidad' AND via = '$via'";
+$sqlV = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV' AND fecha = '$fechaV' AND velocidad = '$velocidad km/h' AND sentido_circulacion LIKE '%$via%'";
 $totalV = $mysqli->query($sqlV);
 $vlV = mysqli_num_rows($totalV);
 
-$sqlV1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV1' AND fecha = '$fechaV1' AND velocidad = '$velocidad1' AND via = '$via'";
+$sqlV1 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV1' AND fecha = '$fechaV1' AND velocidad = '$velocidad1 km/h' AND sentido_circulacion LIKE '%$via%'";
 $totalV1 = $mysqli->query($sqlV1);
 $vlV1 = mysqli_num_rows($totalV1);
 //Total de Vehiculos 2
 
 // Filtro hora - VLiviano
-$sqlV2 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV' AND fecha = '$fechaV' AND evento = 'Ingreso' AND velocidad = '$velocidad' AND via = '$via'";
+$sqlV2 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV' AND fecha = '$fechaV' AND sentido_circulacion = '$ingreso' AND velocidad = '$velocidad' ";
 $totalV2 = $mysqli->query($sqlV2);
 $vlV2 = mysqli_num_rows($totalV2);
 
-$sqlV21 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV1' AND fecha = '$fechaV1' AND evento = 'Ingreso' AND velocidad = '$velocidad1' AND via = '$via'";
+$sqlV21 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV1' AND fecha = '$fechaV1' AND sentido_circulacion = '$ingreso' AND velocidad = '$velocidad1' ";
 $totalV21 = $mysqli->query($sqlV21);
 $vlV21 = mysqli_num_rows($totalV21);
 // FIN Filtro hora
 
 
 // Filtro hora - VMediano
-$sqlV3 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV' AND fecha = '$fechaV' AND evento = 'Salida' AND velocidad = '$velocidad' AND via = '$via'";
+$sqlV3 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV' AND fecha = '$fechaV' AND sentido_circulacion = '$salida' AND velocidad = '$velocidad' ";
 $totalV3 = $mysqli->query($sqlV3);
 $vlV3 = mysqli_num_rows($totalV3);
 
-$sqlV31 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV1' AND fecha = '$fechaV1' AND evento = 'Salida' AND velocidad = '$velocidad1' AND via = '$via'";
+$sqlV31 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV1' AND fecha = '$fechaV1' AND sentido_circulacion = '$salida' AND velocidad = '$velocidad1' ";
 $totalV31 = $mysqli->query($sqlV31);
 $vlV31 = mysqli_num_rows($totalV31);
 // FIN Filtro hora
 
 
 // Filtro hora - VPesado
-$sqlV4 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV' AND fecha = '$fechaV' AND evento = 'Vehículo Pesado' AND velocidad = '$velocidad' AND via = '$via'";
-$totalV4 = $mysqli->query($sqlV4);
-$vlV4 = mysqli_num_rows($totalV4);
+//$sqlV4 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV' AND fecha = '$fechaV' AND evento = 'Vehículo Pesado' AND velocidad = '$velocidad' AND sentido_circulacion LIKE '%$via%'";
+//$totalV4 = $mysqli->query($sqlV4);
+//$vlV4 = mysqli_num_rows($totalV4);
 
-$sqlV41 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV1' AND fecha = '$fechaV1' AND evento = 'Vehículo Pesado' AND velocidad = '$velocidad1' AND via = '$via'";
-$totalV41 = $mysqli->query($sqlV41);
-$vlV41 = mysqli_num_rows($totalV41);
+//$sqlV41 = "SELECT id_vehiculo FROM vehiculos WHERE hora = '$horaV1' AND fecha = '$fechaV1' AND evento = 'Vehículo Pesado' AND velocidad = '$velocidad1' AND sentido_circulacion LIKE '%$via%'";
+//$totalV41 = $mysqli->query($sqlV41);
+//$vlV41 = mysqli_num_rows($totalV41);
 // FIN Filtro hora
 
 
@@ -286,14 +308,14 @@ include 'layouts/header.php'; ?>
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="">Grafico 1</span>
                       </div>
-                      <input type="date" min="2019-03-01" max="2019-03-30" class="form-control" placeholder="DD/MM/AAAA" name="fecha" required>
+                      <input type="date" min="2019-12-01" max="2019-12-30" class="form-control" placeholder="DD/MM/AAAA" name="fecha" required>
                       <input type="text" class="form-control" placeholder="HH:MM:SS" name="hora" required>
                     </div>
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="">Grafico 2</span>
                       </div>
-                      <input type="date" min="2019-03-01" max="2019-03-30" class="form-control" placeholder="DD/MM/AAAA" name="fecha1" required>
+                      <input type="date" min="2019-12-01" max="2019-12-30" class="form-control" placeholder="DD/MM/AAAA" name="fecha1" required>
                       <input type="text" class="form-control" placeholder="HH:MM:SS" name="hora1" required>
                     </div>
                     <input type="submit" value="Graficar" class="form-control btn btn-primary" name="enviar">
@@ -326,7 +348,7 @@ include 'layouts/header.php'; ?>
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="">Grafico 1</span>
                       </div>
-                      <input type="date" min="2019-03-01" max="2019-03-30" class="form-control" placeholder="DD/MM/AAAA" name="fechaV" required>
+                      <input type="date" min="2019-12-01" max="2019-12-30" class="form-control" placeholder="DD/MM/AAAA" name="fechaV" required>
                       <input type="text" class="form-control" placeholder="HH:MM:SS" name="horaV" required>
                       <input type="text" class="form-control" placeholder="Km/s" name="velo" required>
                     </div>
@@ -334,7 +356,7 @@ include 'layouts/header.php'; ?>
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="">Grafico 2</span>
                       </div>
-                      <input type="date" min="2019-03-01" max="2019-03-30" class="form-control" placeholder="DD/MM/AAAA" name="fechaV1" required>
+                      <input type="date" min="2019-12-01" max="2019-12-30" class="form-control" placeholder="DD/MM/AAAA" name="fechaV1" required>
                       <input type="text" class="form-control" placeholder="HH:MM:SS" name="horaV1" required>
                       <input type="text" class="form-control" placeholder="Km/s" name="velo1" required>
                     </div>

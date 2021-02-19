@@ -14,7 +14,7 @@ require_once 'conexion.php';
     if ($rows>0) {
         header("location:dashboard.php");    
     }else{
-        echo "Error en la autentificacion";
+        echo "Error en la autentificación";
     }
 
     mysqli_free_result($result);
