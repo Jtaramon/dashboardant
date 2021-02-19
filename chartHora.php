@@ -149,7 +149,8 @@ include 'layouts/header.php'; ?>
           </div>
         </div>
       </li>
-
+      <!-- Divider -->
+      <hr class="sidebar-divider">
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="tables.php">

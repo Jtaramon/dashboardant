@@ -52,17 +52,14 @@ $resultado = $mysqli->query($sql);
 //Fin Tables
 
 ?>
-<!--Iso Lenguaje-->
-<?php
-header('Content-Type: text/html; charset=ISO-8859-1');
-?>
-<!--Fin Iso Lenguaje-->
+
 
 <!--Header-->
 <?php include 'layouts/header.php'; ?>
 <!--Fin Header-->
 
 <body id="page-top">
+<meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
 
   <!-- Page Wrapper -->
   <div id="wrapper">
